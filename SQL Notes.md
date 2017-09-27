@@ -420,8 +420,8 @@ Transaction, SP, function
 
     @@trancount - depth of the executed begin trans block
 
-    set savepoint - 
-    ```sql
+set savepoint - 
+```sql
         begin transaction
         save {transaction | tran} savepoint_name
         ....
@@ -429,7 +429,7 @@ Transaction, SP, function
             rollback transaction savepoint_name
         
         commit transaction
-    ```
+```
 - Syntax
     ```sql
     Begin transation
