@@ -1,11 +1,25 @@
 NEW STAFF
 =============
 ###  <font color = darkblue>In-Memory OLTP</font>
-In-Memory OLTP (In-Memory Optimization) can improve the performance of transaction processing, data load.
+In-Memory OLTP (online transaction processing) can improve the performance of transaction processing, data load.
 
 It use No locks, no internal latches.
 
 Engine makes new version of rows and timestamp of rows in shared buffer, analyzes and validate before committing. 
+
+是real time system 快速响应，OLTP 数据库旨在使事务应用程序仅写入所需的数据，以便尽快处理单个事务。
+
+支持大量并发用户定期添加和修改数据。
+反映随时变化的单位状态，但不保存其历史记录。
+包含大量数据，其中包括用于验证事务的大量数据。
+结构复杂。
+可以进行优化以对事务活动做出响应。
+提供用于支持单位日常运营的技术基础结构。
+个别事务能够很快地完成，并且只需访问相对较少的数据。OLTP 旨在处理同时输入的成百上千的事务。
+实时性要求高。
+数据量不是很大。
+交易一般是确定的，所以OLTP是对确定性的数据进行存取。(比如存取款都有一个特定的金额)
+并发性要求高并且严格的要求事务的完整、安全性。(比如这种情况：有可能你和你的家人同时在不同的银行取同一个帐号的款)。
 
 ### <font color = darkblue>Temporal Tables</font> 
 Temporal table is type table that provides correct information about stored facts at any point in time.
@@ -15,7 +29,7 @@ Two table inside - current data and historial data. current data change then sto
 BASIC 
 =============
 ### SQL SERVER Service? 
--  It reveive the queries and **execute** them, send **response** back to calling applications.
+-  It receive the queries and **execute** them, send **response** back to calling applications.
 -  Manage the **data files**
 
 ### SQL SERVER Agent?
@@ -33,7 +47,7 @@ Automatic database tuning **insight into query performance** problem, recommend 
 - Read the executuation plan
 
 ### Instance
-complete DB server, one computer can have mant instance, but only one default
+complete DB server, one computer can have many instance, but only one default
 
 ### Result set
 set of record not only data also metadata like col name, datatype and sizes, **saved in ram**
@@ -52,9 +66,9 @@ collection of objects have db schema and table schema
     - msdb (agent use, maintance, backup, message)
 
 ### Statements
-    DDL -> 增删改查数据object table/db
-    DCL -> who can see and modify data 权限
-    DML -> 增删改查表数据
+    DDL -> 增删改查数据object table/db create object in db(data define)
+    DCL -> who can see and modify data 权限 determine who can see or modify the data(data control)
+    DML -> 增删改查表数据 query and modify data in table (data manipulation)
 
 ### Batch
     where we process statement
@@ -85,12 +99,13 @@ collection of objects have db schema and table schema
     * time stamp 
     * SQL_VarIant 不定类型
 ### Flow-control, Statement block
-    ```sql
+```sql
     if ()begin end 
     else begin end
 
     while () begin end
 
+    if ()
     goto name1
     name1:
         select ....
@@ -101,7 +116,7 @@ collection of objects have db schema and table schema
             when '' then '' 
         end
     from ...
-    ```
+```
 Queries
 =============
 ### JOIN
@@ -124,21 +139,21 @@ Queries
 ### insert tablename (select ...)
 
 ### update <tablename> set <colname = value, ....> where < >
-    ```sql
+```sql
     UPDATE dbo.Table2   
     SET dbo.Table2.ColB = dbo.Table2.ColB + dbo.Table1.ColB  
     FROM dbo.Table2   
         INNER JOIN dbo.Table1   
     ON (dbo.Table2.ColA = dbo.Table1.ColA);  
-    ```
+```
 ### delete [from] tablename where condition
-    ```sql
+```sql
     DELETE Production.ProductProductPhoto 
     FROM Production.Example_ProductProductPhoto ppp 
     LEFT OUTER JOIN Production.Product p 
     ON ppp.ProductID = p.ProductID 
     WHERE p.ProductID IS NULL 
-    ```
+```
 ### difference truncate , drop and delete
 truncate table tablename
 
@@ -149,7 +164,6 @@ truncate table tablename
 | NO where | use where |  234  |
 | minimal log so quick| maintain log so slower |
 | reset identity col| retain the identity |
-| no use in index view| can use in index view|
 
 DROP
     
@@ -230,21 +244,21 @@ DROP
 
 ### Exception handling
 
-    ```sql
+```sql
         begin try
         end try
         begin catch
         end catch
-    ```
+```
 
 
 VIEW and TABLE
 =============
 ### **SQL SERVER CTE** 
     common table expression (常用表表示) 
-    Temporary named result set
-    Defined within the execution scope of single DML statement
-    Create View as part of SELECT, Functions, Store Procedure, Triggers
+    * Temporary named result set
+    * Defined within the execution scope of single DML statement
+    * can be defined in Functions, Store Procedure, Triggers, View
 
 - Syntax
     ```sql
@@ -261,7 +275,7 @@ VIEW and TABLE
         union all / union / Intersect / except
         anchor member
         union all
-        recursive member (no distinct, group by, having, join, top, subquery)
+        recursive member (no distinct, group by, having, out join, top, subquery)
     )
     Select from <name> ....
     ```
