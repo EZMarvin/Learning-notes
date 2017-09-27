@@ -1,3 +1,5 @@
+HTTP
+=============
 ### What happend when accessing a web address?
 - client side: 
         1. Browser get URL
@@ -76,11 +78,26 @@ HTML PART
 =============
 
 ### TAG
+
+
+### Inline element and Bolck element
+- Block element
+        * Always start on a new line
+        * Takes up full width available
+- Inline element 
+        * Not start with new line 
+        * Takes up the width as necessary
+
 ### Difference between **margin** and **padding**?
 Padding is space between the border and element content. It's inside the element
 
 Margin is space between elements. It's outside the elements. (top and bottom margins are collapsible)
 
-------
+CSS
+=============
+
+
+
+
 
 
