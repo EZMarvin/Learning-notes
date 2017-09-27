@@ -1,13 +1,13 @@
 NEW STAFF
 =============
-### In-Memory OLTP
+###  <font color = darkblue>In-Memory OLTP</font>
 In-Memory OLTP (In-Memory Optimization) can improve the performance of transaction processing, data load.
 
 It use No locks, no internal latches.
 
 Engine makes new version of rows and timestamp of rows in shared buffer, analyzes and validate before committing. 
 
-### Temporal Tables 
+### <font color = darkblue>Temporal Tables</font> 
 Temporal table is type table that provides correct information about stored facts at any point in time.
 
 Two table inside - current data and historial data. current data change then store in the historial table
@@ -84,7 +84,7 @@ collection of objects have db schema and table schema
     * money
     * time stamp 
     * SQL_VarIant 不定类型
-### flow-control, statement block
+### Flow-control, Statement block
     ```sql
     if ()begin end 
     else begin end
@@ -140,7 +140,7 @@ Queries
     WHERE p.ProductID IS NULL 
     ```
 ### difference truncate , drop and delete
-    truncate table tablename
+truncate table tablename
 
 | tuncate    | delete   |
 | -------- | -----  |
@@ -151,7 +151,7 @@ Queries
 | reset identity col| retain the identity |
 | no use in index view| can use in index view|
 
-drop
+DROP
     
     remove table from db
     all rows/ index/ privilege removed
@@ -159,7 +159,7 @@ drop
     no roll back ???
     DDL
 
-### subquery
+### Subquery
     select in select connect with condition <>= exists all any in
 ### corrlated subq
     inner subquery use values from outer query
@@ -179,7 +179,7 @@ drop
 
     ```
 
-### identity col
+### Identity col
     a column that db made up by the value generate by db
     create..
     (
@@ -187,9 +187,9 @@ drop
     )
 ### Constraints
     
-    not null
+    NOT NULL
 
-    primary key have values that uniquely identify a row in a table (only one, no null, unique) 
+    PRIMARY key have values that uniquely identify a row in a table (only one, no null, unique) 
 
     composite primary key is table constraint (two or more)
 
@@ -214,7 +214,7 @@ drop
     * Referential
         - FK constraint change can not make where fk point to
 
-### normalization 
+### Normalization 
     reduce redundacy ensure consistency
 
     save place/ avoid restructing/ increase flexibility 
@@ -240,7 +240,7 @@ drop
 
 VIEW and TABLE
 =============
-### SQL SERVER CTE 
+### **SQL SERVER CTE** 
     common table expression (常用表表示) 
     Temporary named result set
     Defined within the execution scope of single DML statement
@@ -291,7 +291,7 @@ VIEW and TABLE
     * Improve readability and manageability of complex querys
 - Why not use
 
-### View 
+### **View** 
 
     Virtual table and content is defined by queries
     view of data of one or more tables in the database
@@ -323,7 +323,7 @@ VIEW and TABLE
 
 - Why not use
 
-### Table/ Temporary Table
+### **Table/ Temporary Table**
     
     Table is collection of data organized in certain way
     Temporary table defined like regular table, just store in tempdb
@@ -359,7 +359,7 @@ VIEW and TABLE
 
 - Why not use
 
-### Temporary Variable
+### **Temporary Variable**
     
     data type that can be used within batch, store procedure, function
     NO indexs
@@ -388,12 +388,12 @@ VIEW and TABLE
     * performance suffer when result set is too large
 
 
-### temporary table VS temporary variables
+
 
 
 Transaction, SP, function
 =============
-### Transaction 
+### **Transaction** 
     recoverable logic unit of work
         commit - saved
         rollback - undone
@@ -455,12 +455,12 @@ Transaction, SP, function
 - Why not use
 
 
-### Concurrency
+### **Concurrency**
     pessimistic control when lock cost less
 
     optimistic control when roll back cost less
 
-### isolation level
+### **Isolation level**
     * read uncommited - can read while modify (dirty read)
     * read commited - can't read while modify but can change by others (nonrepeatable read)
     * repeatable read - can't read update, but can insert (phantom data)
@@ -469,20 +469,20 @@ Transaction, SP, function
         - maintained in tempdb
         - optimistic
 
-### deadlock
+### **Deadlock**
     multiple process simultaneously require locks held by other
 
     fix : examine deak lock trans and kill the simple one with an error to break dead lock
 
 
-### reduce deadlock
+### **Reduce deadlock**
     * trans access table in same order (守秩序)
     * hold lock when repeatable read are necessary (别人要重复读就等)
     * avoid long run transactions (不要花太长时间)
     * avoid user input while hold lock (占位置之后不要干别的)
     * avoid numerous simultaneous execution of DML (不要同时大量做增删改)
 
-### Store Procedure 
+### **Store Procedure** 
     groups one or more sql statement into logical unit, store as an object
     
     when executed for first time, sql will store most optimal query plan in memory cache for reuse
@@ -531,7 +531,7 @@ Transaction, SP, function
 
 - Why not use
 
-### Function
+### **Function**
     built-in function
     user-defined functions
         a common language runtime(CLR) routine that accepts parameters perform action
@@ -554,9 +554,28 @@ Transaction, SP, function
     ```
 
 - Example
-    
     ```sql
-
+    CREATE FUNCTION dbo.ISOweek (@DATE datetime)  
+    RETURNS int  
+    WITH EXECUTE AS CALLER  
+    AS  
+    BEGIN  
+        DECLARE @ISOweek int;  
+        SET @ISOweek= DATEPART(wk,@DATE)+1  
+            -DATEPART(wk,CAST(DATEPART(yy,@DATE) as CHAR(4))+'0104');  
+    --Special cases: Jan 1-3 may belong to the previous year  
+        IF (@ISOweek=0)   
+            SET @ISOweek=dbo.ISOweek(CAST(DATEPART(yy,@DATE)-1   
+                AS CHAR(4))+'12'+ CAST(24+DATEPART(DAY,@DATE) AS CHAR(2)))+1;  
+    --Special case: Dec 29-31 may belong to the next year  
+        IF ((DATEPART(mm,@DATE)=12) AND   
+            ((DATEPART(dd,@DATE)-DATEPART(dw,@DATE))>= 28))  
+            SET @ISOweek=1;  
+        RETURN(@ISOweek);  
+    END;  
+    GO  
+    SET DATEFIRST 1;  
+    SELECT dbo.ISOweek(CONVERT(DATETIME,'12/26/2004',101)) AS 'ISO Week'; 
     ```
 - Usage
     * only used in sql statement, most in select or present data 
@@ -565,7 +584,7 @@ Transaction, SP, function
 
 - Why not use
 
-### Trigger
+### **Trigger**
     specical type store procedure that executed when user issue DML (not select)
     * DML trigger
     * DDL trigger
@@ -657,7 +676,7 @@ INTO @TempTable
 VALUES ('James')
 SELECT * FROM @TempTable
 ```
-### cursor
+### **Cursor**
     object applied on result set to read and load the result row by row
     
 - Syntax
@@ -688,7 +707,7 @@ SELECT * FROM @TempTable
 - Why not use
     * performance killer
 
-### Index 
+### **Index** 
     objects allows sql server to find data in a table without scanning entire table
     
 
@@ -723,9 +742,38 @@ SELECT * FROM @TempTable
 - Why not use
 
 
+### **Temporary table VS temporary variables**
+
+    temp var limitation
+    temp variable can not use as input or output
+    temp var will not exist after sp, no table to drop
+    can not create nonclustered index unless index is side effect of pk????
+| Temp table   | Temp variable   |
+| -------- | -----  |
+| create + insert/select into | declare + insert/select |
+| scope in session | scope in batch or store procedure|
+| drop temp table | can not use drop |
+| support most constraint | don't support fk |
+| support rollback | do not support rollback ??|
+
+both in tempdb
 
 
-### difference CTE AND VIEW
+### **Difference CTE AND VIEW**
 
+| CTE   | VIEW |
+| -------- | -----  |
+| temporary view not store | physical object present in db, no physical data, only schema  |
+| scope in next quert | scope  long |
+| USE with | USE create |
+| call itself, recursive| can not call itself |
+| no index | can have index |
 
-### difference store procedure and function
+### **Difference store procedure and function**
+| Store procedure |  Function |
+|-----|-----|
+| optional return | must return value|
+| both input or ouput para | only input para |
+| can call function | can not call procedure |
+| allow DML | only select |
+| procedure can not use in select/where/having | embeded in select/where/having |
