@@ -545,7 +545,7 @@ set savepoint -
 
     ```
 - Usage
-    * call procedure - exec name @var = , @var2 = @read output
+    * call procedure - exec name @var = , @var2 = @read output / exec name var1, var2, @var3 output
     * set automatically exec
 
 - Why use
@@ -848,4 +848,12 @@ WITH CTE AS(
    FROM dbo.Table1
 )
 DELETE FROM CTE WHERE RN > 1
+
+DELETE
+FROM FriendsData 
+WHERE fID NOT IN
+(
+SELECT MIN(fID)
+FROM FriendsData 
+GROUP BY UserID, FriendsID)
 ``` 
