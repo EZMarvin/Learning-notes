@@ -815,21 +815,29 @@ Join is to join two table base on foreign keys before filter operation – combi
 
 ### **difference view and store procedure**
 Store procedure accept parameters , view not
+
 Store procedure can not be used as building large query, view can
+
 Store procedure can have several statements, loops, view can only have select
+
 Store procedure can not be used as target of DML, view can 
 
 View has just select statements but storeprocedure has collection of DML and DDL statements.
 
 ### **difference trigger and store procedure**
 Triggers happen on DML statements occurence where as store procs should be excuted manually.
+
 we can excute procedure whenever we want, trigger can only execute when event is fired
+
 we can call SP in another SP, but we can’t call trigger within trigger
+
 Sp can take input parameters, trigger can not
+
 Sp can return value, trigger can not
 
 ### begin end , go
 begin end enclousre a group of statement
+
 go open new batch
 
 ### **Delete all duplicate row in table**
