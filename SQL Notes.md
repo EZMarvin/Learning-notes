@@ -186,12 +186,12 @@ DROP
     sub for return few rows
 
 ### Rank, row number, dense rank,
-    ```sql
+```sql
     rank() over (partition by order by) as rank 1134 排名
     row_number() over (...) as rownumber 1234 行数
     dense_number() over (...) as densenumber 11234 排名 紧凑
 
-    ```
+```
 
 ### Identity col
     a column that db made up by the value generate by db
@@ -754,6 +754,9 @@ SELECT * FROM @TempTable
 
 
 - Why not use
+    * take disk space
+    * insert/ delete/ update will be slow
+    * cluster index cover query ??
 
 
 ### **Temporary table VS temporary variables**
@@ -791,3 +794,13 @@ both in tempdb
 | can call function | can not call procedure |
 | allow DML | only select |
 | procedure can not use in select/where/having | embeded in select/where/having |
+
+### **Delete all duplicate row in table**
+```sql
+WITH CTE AS(
+   SELECT [col1], [col2], [col3], [col4], [col5], [col6], [col7],
+       RN = ROW_NUMBER()OVER(PARTITION BY col1 ORDER BY col1)
+   FROM dbo.Table1
+)
+DELETE FROM CTE WHERE RN > 1
+``` 
