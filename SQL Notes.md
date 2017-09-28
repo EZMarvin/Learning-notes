@@ -10,16 +10,27 @@ Engine makes new version of rows and timestamp of rows in shared buffer, analyze
 是real time system 快速响应，OLTP 数据库旨在使事务应用程序仅写入所需的数据，以便尽快处理单个事务。
 
 支持大量并发用户定期添加和修改数据。
+
 反映随时变化的单位状态，但不保存其历史记录。
+
 包含大量数据，其中包括用于验证事务的大量数据。
+
 结构复杂。
+
 可以进行优化以对事务活动做出响应。
+
 提供用于支持单位日常运营的技术基础结构。
+
 个别事务能够很快地完成，并且只需访问相对较少的数据。OLTP 旨在处理同时输入的成百上千的事务。
+
 实时性要求高。
+
 数据量不是很大。
+
 交易一般是确定的，所以OLTP是对确定性的数据进行存取。(比如存取款都有一个特定的金额)
 并发性要求高并且严格的要求事务的完整、安全性。(比如这种情况：有可能你和你的家人同时在不同的银行取同一个帐号的款)。
+OLTP (On-line Transaction Processing) is involved in the operation of a particular system. OLTP is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). The main emphasis for OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments and an effectiveness measured by number of transactions per second. In OLTP database there is detailed and current data, and schema used to store transactional databases is the entity model (usually 3NF). It involves Queries accessing individual record like Update your Email in Company database.
+OLAP (On-line Analytical Processing) deals with Historical Data or Archival Data. OLAP is characterized by relatively low volume of transactions. Queries are often very complex and involve aggregations. For OLAP systems a response time is an effectiveness measure. OLAP applications are widely used by Data Mining techniques. In OLAP database there is aggregated, historical data, stored in multi-dimensional schemas (usually star schema). Sometime query need to access large amount of data in Management records like what was the profit of your company in last year.
 
 ### <font color = darkblue>Temporal Tables</font> 
 Temporal table is type table that provides correct information about stored facts at any point in time.
@@ -114,6 +125,7 @@ collection of objects have db schema and table schema
         case c
             when '' then ''
             when '' then '' 
+            else ''
         end
     from ...
 ```
@@ -533,7 +545,7 @@ set savepoint -
 
     ```
 - Usage
-    * call procedure - exec name @var = , @var2 = @read
+    * call procedure - exec name @var = , @var2 = @read output
     * set automatically exec
 
 - Why use
@@ -794,6 +806,31 @@ both in tempdb
 | can call function | can not call procedure |
 | allow DML | only select |
 | procedure can not use in select/where/having | embeded in select/where/having |
+
+
+### **difference Join and Union**
+Union is operating on the result sets – combine multiple queries into a single query with all the records of queries
+
+Join is to join two table base on foreign keys before filter operation – combine data form multiple queries with the column 
+
+### **difference view and store procedure**
+Store procedure accept parameters , view not
+Store procedure can not be used as building large query, view can
+Store procedure can have several statements, loops, view can only have select
+Store procedure can not be used as target of DML, view can 
+
+View has just select statements but storeprocedure has collection of DML and DDL statements.
+
+### **difference trigger and store procedure**
+Triggers happen on DML statements occurence where as store procs should be excuted manually.
+we can excute procedure whenever we want, trigger can only execute when event is fired
+we can call SP in another SP, but we can’t call trigger within trigger
+Sp can take input parameters, trigger can not
+Sp can return value, trigger can not
+
+### begin end , go
+begin end enclousre a group of statement
+go open new batch
 
 ### **Delete all duplicate row in table**
 ```sql
