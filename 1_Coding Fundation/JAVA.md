@@ -12,7 +12,6 @@
 | compile-time - call to its definition | runtime - call to its definition   |
 | Static method can be overloaded (class can have multiple static method with same name) | Static method can not be override |
 | Static binding | dynamtic binding |
-| Performance better done at runtime |  |
 | private and final method can overload | no override |
 | return type does not matter | must be same or more specified (subtype) |
 | Argument should be different | Argument should be same |
@@ -215,6 +214,7 @@ public class Outer {
 
 | Abstract Class | Interface |
 | -------- | -------- |
+| can have constructor | no constructor |
 | can extend one class or one abstract class | can extend any number of interfaces at a time |
 | can extend concrete class | only extend interface |
 | can have abstract and concrete methods | only abstract method |
