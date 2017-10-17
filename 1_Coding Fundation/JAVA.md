@@ -1,34 +1,21 @@
 ## JAVA
-### OverLoading VS Overriding
-* Rules for Overriding
-    * argument list should be exactly the same as the overriden method
-    * return type should be the same or a subtype of the return type
-    * access level can not be more restrictive than the overriden method 重写后访问条件更加宽松
-    * final method can not override
-    * overriding method can throw narrower or fewer exceptions than overridden method 
 
-| Overloading    | Overriding   |
-| -------- | -----  |
-| compile-time - call to its definition | runtime - call to its definition   |
-| Static method can be overloaded (class can have multiple static method with same name) | Static method can not be override |
-| Static binding | dynamtic binding |
-| private and final method can overload | no override |
-| return type does not matter | must be same or more specified (subtype) |
-| Argument should be different | Argument should be same |
+总结
 
 ### Syntax
 
-* Object have states and behaviour
-* Class define a tempalte that describe status and behaviour
+* Object is a runtime entity and it's state is stored in field and behaviour
+* Class is blue print to create object, describe status and behaviour
 * Methods is behaviour (write logic, mantipulate data, and execute action)
-* Instance Variables - object's state is create by the value assigned to these variables
+* Constructor is invoked when new object is created
+* Creating object - declared, instantiated, initialized
 
 ### Modifiers
 
 * Access Modifiers - default, public(visable to world), protected(visable to package and subclass), private(to class only)
 * Non-access Modifiers - static, final(finalize the implementation of class, method, and variable), abstract(abstract class), synchronized volatile (thread)
 
-### Variables 
+### Variables
 
 * Local Variables - inside the method, constructors, or blocks, destory when method complete **No access modifiers/ No default value**
 * Class variables (Static) - declare within a class, outside method. **with static keyword**
@@ -41,8 +28,8 @@
 
 ### Constructor
 
-* can't be final, abstract, static
-* can be private
+* can't be final, abstract, static (没有意义，本身已经包含这些定义)
+* can be private (可以，singleton)
 
 ### finalize() method 
 
@@ -192,10 +179,28 @@ public class Outer {
 }
 ```
 
+### OverLoading VS Overriding
+
+* Rules for Overriding
+    * argument list should be exactly the same as the overriden method
+    * return type should be the same or a subtype of the return type
+    * access level can not be more restrictive than the overriden method 重写后访问条件更加宽松
+    * final method can not override
+    * overriding method can throw narrower or fewer exceptions than overridden method 
+
+| Overloading    | Overriding   |
+| -------- | -----  |
+| compile-time - call to its definition | runtime - call to its definition   |
+| Static method can be overloaded (class can have multiple static method with same name) | Static method can not be override |
+| Static binding | dynamtic binding |
+| private and final method can overload | no override |
+| return type does not matter | must be same or more specified (subtype) |
+| Argument should be different | Argument should be same |
+
 ### Interfaces & abstract class
 
 * Interfaces
-    * can be defined as a contract between objects on how to communicate with each other, describe the behaviour 
+    * can be defined as a contract between objects on how to communicate with each other, describe the behaviour
     * a reference type in java, a collection of abstract methods
     * may contain constants, default method, static method
     * all method need to be defined in class unless it was implemented by abstract class

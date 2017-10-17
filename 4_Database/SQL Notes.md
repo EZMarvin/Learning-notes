@@ -771,6 +771,9 @@ SELECT * FROM @TempTable
     * cluster index cover query ??
 
 
+### Overall
+
+
 ### **Temporary table VS temporary variables**
 
     temp var limitation

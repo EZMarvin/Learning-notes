@@ -35,12 +35,15 @@
 * How many objects will be created in the following code?String s1="Antra";String s2="Antra";String s3="Antra"?
 
 ### Stream - **Java**
+
  In Java, the Scanner class is widely used to read input, but each language has its own mechanism for handling IO (input and output). 
 
 The syntax for reading from stdin using the Scanner class is as follows:
+
 ```java
 Scanner scan = new Scanner(System.in);
 ```
+
 This creates a new Scanner object that reads from the System.in stream and can be accessed using the variable name . To read in information from stdin, you just need to apply Scanner's methods to your scanner object. Here are two basic examples:
 
 ```java
@@ -54,23 +57,30 @@ scan.hasNextLine(); // returns true if there is another line of iput
 Check out the comprehensive list of Scanner methods to learn more. 
 
 When you are finished reading from an input stream, you should close it to avoid a resource leak. The following line of code closes the Scanner object referenced by our  variable:
+
 ```java
 scan.close();
 ```
+
 Let's say we want to assign a value received from stdin to some String that we'll name , and then print it. We can accomplish this with the following code:
+
 ```java
 Scanner scan = new Scanner(System.in); // open scanner
 String s = scan.next(); // read the next token and save it to 's'
 scan.close(); // close scanner
 System.out.println(s); // print 's' to System.out, followed by a new line
 ```
+
 If the input token is Hi!, the above code will print Hi!. 
 
-You can also print text in quotes using System.out.println, or combine quoted text with a variable 
+You can also print text in quotes using System.out.println, or combine quoted text with a variable
+
 ```java
 System.out.println("Input received: " + s);
 ```
+
 ### Random 
+
 * Math.random() 产生[0.0-1.0) 带正号的double值
 * Util.Random 
 ```java
