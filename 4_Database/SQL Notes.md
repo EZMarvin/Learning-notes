@@ -1,4 +1,4 @@
-NEW STAFF
+NEW STUFF on SQL Server
 =============
 ###  <font color = darkblue>In-Memory OLTP</font>
 In-Memory OLTP (online transaction processing) can improve the performance of transaction processing, data load.
@@ -39,6 +39,12 @@ Two table inside - current data and historial data. current data change then sto
 
 BASIC 
 =============
+### Database 
+- Organized collection of logically related data
+
+### DBMS - database management system
+- software package for defining and managing database
+
 ### SQL SERVER Service? 
 -  It receive the queries and **execute** them, send **response** back to calling applications.
 -  Manage the **data files**
@@ -57,8 +63,9 @@ Automatic database tuning **insight into query performance** problem, recommend 
 - Shows how SQL SERVER compile/executes the querys
 - Read the executuation plan
 
-### Instance
-complete DB server, one computer can have many instance, but only one default
+### SQL SERVER Instance
+- Database engine is complete DB server, one computer can have many instance, but only one default
+- Every instance have its own copy of server files, databases
 
 ### Result set
 set of record not only data also metadata like col name, datatype and sizes, **saved in ram**
@@ -70,11 +77,17 @@ Table, schema, db use to store or reference data
 collection of objects have db schema and table schema
 
 ### SQL SERVER SYSTEM DB
-    - master (installation, disk space, file location, configuration)
-    - model (use as model to create new database)
-    - tmpdb (workspace, tmp table, recreate everytime server restarted) **size is important for performance**
+    - master (keep track of server installation, keeps information about disk space, file location, system configuration setting, login accounts)
+    - model (template database, use as model to create new database)
+    - tmpdb (used as workspace, store tmp table, used for worktable that will hold intermediate results, recreate everytime server restarted) **size is important for performance**
     - mssql (resource hidden, store procedure, functions)
-    - msdb (agent use, maintance, backup, message)
+    - msdb (used by SQL agent service, perform scheduled activities such as replication, backup and service broker)
+
+### DataBase files
+- primary data files: keeps track of all the rest files in database .mdf
+- 
+- 
+
 
 ### Statements
     DDL -> 增删改查数据object table/db create object in db(data define)
