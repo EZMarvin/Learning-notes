@@ -87,19 +87,25 @@ collection of objects have db schema and table schema
 
 ### DataBase files
 - primary data files: keeps track of all the rest files in database .mdf
-- 
-- 
+- Secondary data files: can have zero or more. ndf
+- Log files: every data base has at lease one log file that contains info to recover all transactions in a database. ldf
 
+### T-SQL - transact - sql
+is a programming language used in sql server for querying and modifying data and managing database
 
 ### Statements
-    DDL -> 增删改查数据object table/db create object in db(data define)
+    DDL -> 增删改查object table/db create object in db(data define)
     DCL -> who can see and modify data 权限 determine who can see or modify the data(data control)
-    DML -> 增删改查表数据 query and modify data in table (data manipulation)
+    DML -> 增删改查表数据(in object) query and modify data in table (data manipulation)
+
+### Result set
+is a set of data that return by select, sp or function. could be empty or not
 
 ### Batch
-    where we process statement
-    directive instructs SERVER to execute and parse sql
-    
+is a group of one or more sql statement sent at same time for execution.
+
+sql serve compilers the statement of a batch into a single executable unit, called executiion plan. statements in the execution plan are executed at a time.
+
     GO -> not statement, send current batch
     EXEC -> execute function procedure
 
