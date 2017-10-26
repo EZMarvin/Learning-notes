@@ -29,7 +29,9 @@ Engine makes new version of rows and timestamp of rows in shared buffer, analyze
 
 交易一般是确定的，所以OLTP是对确定性的数据进行存取。(比如存取款都有一个特定的金额)
 并发性要求高并且严格的要求事务的完整、安全性。(比如这种情况：有可能你和你的家人同时在不同的银行取同一个帐号的款)。
+
 OLTP (On-line Transaction Processing) is involved in the operation of a particular system. OLTP is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). The main emphasis for OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments and an effectiveness measured by number of transactions per second. In OLTP database there is detailed and current data, and schema used to store transactional databases is the entity model (usually 3NF). It involves Queries accessing individual record like Update your Email in Company database.
+
 OLAP (On-line Analytical Processing) deals with Historical Data or Archival Data. OLAP is characterized by relatively low volume of transactions. Queries are often very complex and involve aggregations. For OLAP systems a response time is an effectiveness measure. OLAP applications are widely used by Data Mining techniques. In OLAP database there is aggregated, historical data, stored in multi-dimensional schemas (usually star schema). Sometime query need to access large amount of data in Management records like what was the profit of your company in last year.
 
 ### <font color = darkblue>Temporal Tables</font> 
