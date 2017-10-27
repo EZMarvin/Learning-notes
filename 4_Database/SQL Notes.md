@@ -96,6 +96,7 @@ sql serve compilers the statement of a batch into a single executable unit, call
     @@error / @@rowcount
     # temporary table / procedure
     ## global temporary table or other object
+
 ### data type
     * int tiny 1  small 2 big 8 
     * char varchar nvarchar
@@ -105,8 +106,16 @@ sql serve compilers the statement of a batch into a single executable unit, call
     * decimal numberic (5,2) 123.45
     * date small date(min) date time(3.33ms) date time 2
     * money
-    * time stamp 
+    * time stamp
     * SQL_VarIant 不定类型
+
+### WildCard
+% replace a string of zero or more characters
+_ replace a single character
+[] specifies a single character from selected range
+[^] specifies a single character not within the specified range
+
+
 ### Flow-control, Statement block
 ```sql
     if ()begin end 
@@ -213,12 +222,17 @@ DROP
     
     NOT NULL
 
-    PRIMARY key have values that uniquely identify a row in a table (only one, no null, unique) 
+    PRIMARY key have values that uniquely identify a row in a table (only one, no null, unique)
 
     composite primary key is table constraint (two or more)
 
-    unique (one null, can be fk) 
+    unique (one null, can be fk)
 
+    differ:
+     - pk can have null value, unique can take 1 null value
+     - only 1 pk in a table but multiple unique
+     - promary key by default sort data in asc order, unique do not sort
+     - pk create cluster index, unique create non-clustered index
     candidate key not pk but can be (unique and no null)
 
     foreign key is col or combination of col used to establish link between two table
@@ -230,7 +244,9 @@ DROP
 
     check limit value by accept by col logic expression
     constraint ck check (col < ....)
+
 ### Integrities 
+data must be correct, consist.
     * Domain
         - all col in db must declare upon a defined domain
     * Entity
@@ -241,14 +257,24 @@ DROP
 ### Normalization 
     reduce redundacy ensure consistency
 
-    save place/ avoid restructing/ increase flexibility 
+    problem: slow/ impossible to change/ restructure table many time/ duplicate data
+
+    save place/ avoid restructing/ increase flexibility
+
     - Fist normal Form
-        no same col , no repeating value, atomic value 
+        table not contain repeating col , atomic value, identify primary key
         无重复
-    - Second 
+
+    - Second
+        1NF, move redundant in col to separate table, create FK
         non-prime attribute is dependent on any proper subset of any candidate key
         非码列 完全依赖 键列
-    - third 
+
+    - third
+        1NF, 2NF, all col are directly depent on primary key
+
+        remove transcript dependency
+
         all the attributes in a table are determined only by the candidate keys of that relation and not by any non-prime attributes
         非码列 之间不能有完全依赖
 
