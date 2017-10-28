@@ -1,11 +1,13 @@
 NEW STUFF on SQL Server
 =============
 ###  <font color = darkblue>In-Memory OLTP</font>
-In-Memory OLTP (online transaction processing) can improve the performance of transaction processing, data load.
+* In-Memory OLTP (online transaction processing) can improve the performance of transaction processing, data load.
 
-It use No locks, no internal latches.
+* It use No locks, no internal latches.
 
-Engine makes new version of rows and timestamp of rows in shared buffer, analyzes and validate before committing. 
+* Engine makes new version of rows and timestamp of rows in shared buffer, analyzes and validate before committing.
+
+* lock - free garbage-collection control
 
 OLTP (On-line Transaction Processing) is involved in the operation of a particular system. OLTP is characterized by a large number of short on-line transactions (INSERT, UPDATE, DELETE). The main emphasis for OLTP systems is put on very fast query processing, maintaining data integrity in multi-access environments and an effectiveness measured by number of transactions per second. In OLTP database there is detailed and current data, and schema used to store transactional databases is the entity model (usually 3NF). It involves Queries accessing individual record like Update your Email in Company database.
 
@@ -33,10 +35,17 @@ BASIC
 - **Notify** the administrators of problem occur
 
 ### SQL SERVER Profiler?
-Interface to create and manage **traces** and analyze and replay trace result
+Interface to create and manage **traces** and analyze and replay trace result.
+Events are saved in a trace file that can later be analyzed or used to replay a specific series of steps when trying to diagnose a problem.
 
 ### SQL SERVER Analyzer, Tuning Advisor?
-Automatic database tuning **insight into query performance** problem, recommend solution and automatically fix problem 
+Database Engine Tuning Advisor (DTA) analyzes databases and makes recommendations that you can use to optimize query performance. 
+
+You can use the Database Engine Tuning Advisor to select and create an optimal set of indexes, indexed views, or table partitions without having an expert understanding of the database structure or the internals of SQL Server. Using the DTA, you can perform the following tasks.
+* Troubleshoot the performance of a specific problem query
+* Tune a large set of queries across one or more databases
+* Perform an exploratory what-if analysis of potential physical design changes
+* Manage storage space
 
 ### SQL SERVER Execution Plans
 - Shows how SQL SERVER compile/executes the querys
@@ -83,31 +92,32 @@ is a group of one or more sql statement sent at same time for execution.
 
 sql serve compilers the statement of a batch into a single executable unit, called executiion plan. statements in the execution plan are executed at a time.
 
+batch directive instructs sql server to parse and execute all the instructions within the batch
     GO -> not statement, send current batch
     EXEC -> execute function procedure
 
 ### Identifiers, variables
-    标识符 128 character 
+    标识符 128 character
     start with character
-    [ 有括号，关键字]
+    [ have space，reserved words]
 
     @ local variable and parameter
     @@ global variable (system use, system defined function)
-    @@error / @@rowcount
+    @@error (0 if success)/ @@rowcount (after each sql statement, set value to number of records affected by it)
     # temporary table / procedure
     ## global temporary table or other object
 
 ### data type
-    * int tiny 1  small 2 big 8 
-    * char varchar nvarchar
-    * bit 
-    * text (no union)
+    * int tiny 1  small 2 big 8
+    * char (fixed size and padded spaces to fill length), varchar (two additional bytes to record length) nvarchar (accpets unicode characters)
+    * bit
+    * text (no union) (store 16 byte pointer to this data stored in the table)
     * float real
-    * decimal numberic (5,2) 123.45
+    * decimal numberic (5,2) 123.45 total number of decimal, and the number of digits right of decimal point
     * date small date(min) date time(3.33ms) date time 2
     * money
     * time stamp
-    * SQL_VarIant 不定类型
+    * SQL_VarIant 不定类型 (determined at run time)
 
 ### WildCard
 % replace a string of zero or more characters
@@ -139,19 +149,25 @@ _ replace a single character
 Queries
 =============
 ### JOIN
-    querying from more than one table and views
-    inner join 0 - smaller(a,b)
-    outter join - left right full - bigger(a,b) - a+b
-    cross join Cartesian 卡提振
+    querying from more than one table and views, combine data from multiple tables and views
+    join the table based on join condition
+    inner join 0 - max(a,b) (depend on situation)
+    outter join - left right full - max(a,b) - a+b
+    cross join Cartesian 卡提振 product
 ### from + where
 
 ### group by + having
+determine the groups that rows should be put in column that not used in aggregate
 
-### order by + top
+### order by + top 
+order in view, function, subquery, derived table must come with top
 
 ### select [col...] into [new_table] from [table]
-    only copy data, no constraint, index depend on table
+create a new table based on the columns and rows of the query result
+only copy data, no constraint, index depend on table
+
 ### insert [into] tablename (col...) values (...)
+identity col must [set IDENTITY_INSERT database.table on|Off]
 
 ### set identity_insert tablename [on | off]
 
@@ -180,12 +196,11 @@ truncate table tablename
 | -------- | -----  |
 | DDL      | DML   |
 | lock table remove all records |   row lock for remove   |
-| NO where | use where |  234  |
+| NO where | use where |
 | minimal log so quick| maintain log so slower |
 | reset identity col| retain the identity |
 
 DROP
-    
     remove table from db
     all rows/ index/ privilege removed
     no DML trigger
@@ -193,11 +208,15 @@ DROP
     DDL
 
 ### Subquery
-    select in select connect with condition <>= exists all any in
+    select query nest in another DML statement
+    connect with condition <>= exists all any in
+
 ### corrlated subq
-    inner subquery use values from outer query
+    a subquery that inner subquery use values from outer query
+
 ### union and union all / except / intercept
     combine data vertically
+    union no duplicate and distinct sorted based on first col
 
 ### JOIN VS SUBQ
     no certain answer
@@ -211,8 +230,7 @@ DROP
     dense_number() over (...) as densenumber 11234 排名 紧凑
 
 ```
-
-### Identity col
+dentity col
     a column that db made up by the value generate by db
     create..
     (
@@ -288,11 +306,11 @@ data must be correct, consist.
 ```
 
 
-VIEW and TABLE
+CTE, VIEW and TABLE
 =============
 ### **SQL SERVER CTE** 
-    common table expression (常用表表示) 
-    * Temporary named result set
+    common table expression (常用表表示)
+    * Temporary named result set derived from a simple query
     * Defined within the execution scope of single DML statement
     * can be defined in Functions, Store Procedure, Triggers, View
 
@@ -348,6 +366,8 @@ VIEW and TABLE
         * regular view
         * index view (with clustered index)
         * distributed partitioned view (accross sql server instance)
+    regular view - store in database, only view definition
+    indexed view - cluster index created on it and materialize the index data to similar to table data
 
 - Syntax
     ```sql
@@ -362,14 +382,14 @@ VIEW and TABLE
     )
     ```
 - Example
-    
+
 - Usage
 
 - Why use
-    * Simplify data manipulation, frequently used, no need everytime
-    * Hide structure of table, backward compatible interface
-    * Customize data for user, no need permission
-    * distribute querues.....combine data from different database
+    * Simplify data manipulation - save frequently used, no need to specify all condition everytime
+    * Hide structure of table, backward compatible interface. 
+    * Customize data for user, no need access permission. Implement row and col security
+    * distribute querues.....combine data from different table
 
 - Why not use
 
@@ -408,14 +428,16 @@ VIEW and TABLE
 - Why use
 
 - Why not use
+may take too much space in the tempdb and overload it.
 
 ### **Temporary Variable**
     
     data type that can be used within batch, store procedure, function
     NO indexs
     NO FK
-    YES pk/unique/check/null/not null 
-    
+    YES pk/unique/check/null/not null
+    can not change structure
+
 - Syntax
     ```sql
     declare @name table
@@ -444,9 +466,13 @@ VIEW and TABLE
 Transaction, SP, function
 =============
 ### **Transaction** 
-    recoverable logic unit of work
-        commit - saved
-        rollback - undone
+    recoverable logic unit of work(a sql operation or a set of sql statements executed against a database - changes the database state) that executes either:
+        commit - saved/ completely
+        rollback - undone/ not at all
+
+    begin tran - tell sql serve a tran is beginning/ optionally name a tran
+    rollback - undoes the changes to named save point or the beginning of tran
+    commit - end tran and saves changes to database
 
     Transaction mode 
         - implicit transactions
@@ -454,9 +480,20 @@ Transaction, SP, function
         - explicit transactions
             explicitly define both start and end of transaction
 
-    @@trancount - depth of the executed begin trans block
+    @@trancount - depth of the executed begin trans block (nest tran)
 
-set savepoint - 
+    ACID test
+    * atomicity 原子 - management
+        - work is atomic (all done or fail)
+    * consistency 一致 - 
+        - data is integrity and consistent
+        - structure is correct
+    * isolation 隔离 - isolation
+        - work is isolated and not interferred other tran
+    * durability 持续 -  loging 
+        - change is permanently 
+
+set savepoint - serves as intermediate point in a transaction/ where you want to rollback a portion of work
 ```sql
         begin transaction
         save {transaction | tran} savepoint_name
@@ -490,39 +527,47 @@ set savepoint -
     * least one DML 
     * change db state
     * use within one db
-        
-    * atomicity 原子 - management
-        - work is atomic (all done or fail)
-    * consistency 一致 - 
-        - data is integrity and consist 
-        - structure is correct
-    * isolation 隔离 - isolation
-        - isolated
-    * durability 持续 -  loging 
-        - change is permanently 
+
 - Why use
+* Provides the control required for managing transaction (提供控制)
+* Enables the grouping of SQL commands in a transaction that meet business requirements(符合业务)
+* Enables a programmer to influence SQL Server's locking strategy(操作lock)
+* Creates predictable effects when committing or rolling back transactions(可预见结果)
+* Begin transaction and Commit or Rollback transaction mark the beginning and end of a transaction
 
 - Why not use
 
 
 ### **Concurrency**
-    pessimistic control when lock cost less
+    pessimistic control - use locks prevent users from modifying data in a way that affects other user - when lock cost less, have high contention for data
 
-    optimistic control when roll back cost less
+    optimistic control - do not lock when user read it, when other user update it, will have error and rollback - when roll back cost less, low contention for data
+
+### Problem
+    * dirty read - if tran 1 allows tran 2 read uncommitted data the dirty read will happen if tran 1 rollback
+    * lost update  - if tran 1 and tran 2 update table at same time then lost update may occure
+    * non-repeatable read - if tran 1 read the same data twice but in between tran 2 update the data, the tran 1 will get two different result
+    * phantom read - tran 1 read same data twice and in between tran 2 insert new data, then the tran 1 will get new result
 
 ### **Isolation level**
-    * read uncommited - can read while modify (dirty read)
-    * read commited - can't read while modify but can change by others (nonrepeatable read)
-    * repeatable read - can't read update, but can insert (phantom data)
-    * serializable 
-    * snapshot
-        - maintained in tempdb
+    * read uncommited - can read while modify (dirty read, lost update)
+    * read commited - (default) can't read while modify but can change by others (nonrepeatable read, lost update)
+    * repeatable read - can't read update, but can insert (phantom read)
+    * serializable
+    * snapshot doesn't acquire locks, it maintains versioning in Tempdb. Since, snapshot isolation does not lock resources, it can significantly increase the number of concurrent transactions while providing the same level of data consistency as serializable isolation does.
+        - read while other tran is using will read the data before
+        - update while other tran is using will raise error
+        - enhanced concurrency
+        - updated row version for each tran maintained in tempdb
         - optimistic
 
-### **Deadlock**
-    multiple process simultaneously require locks held by other
 
-    fix : examine deak lock trans and kill the simple one with an error to break dead lock
+    * higher isolation level, the higher the consistency. lower the concurrency
+
+### **Deadlock**
+    multiple process simultaneously require locks held by other process
+
+    fix : examine deak lock trans and kill the simple(easy to rollback/ deadlock portity) one with an error to break dead lock (deadlock victim)
 
 
 ### **Reduce deadlock**
@@ -534,7 +579,7 @@ set savepoint -
 
 ### **Store Procedure** 
     groups one or more sql statement into logical unit, store as an object
-    
+
     when executed for first time, sql will store most optimal query plan in memory cache for reuse
 
 - Syntax
@@ -573,10 +618,10 @@ set savepoint -
     * set automatically exec
 
 - Why use
-    * faster and reliable performance
-    * security for injection 
-    * centralize sql code easy debug
-    * reduce network traffic
+    * faster and reliable performance compared to non compiled query
+    * increase security by limiting direct access.
+    * centralize sql code in data tier. easy for sql code debug
+    * reduce network traffic for large ad hoc queries
     * code reuseability
 
 - Why not use
@@ -584,8 +629,7 @@ set savepoint -
 ### **Function**
     built-in function
     user-defined functions
-        a common language runtime(CLR) routine that accepts parameters perform action
-     
+        a common language runtime(CLR) routine that accepts parameters perform action/ calculation and returns the result of that action as a value. return value can be a single value or a table
 
 - Syntax
     ```sql
@@ -628,7 +672,7 @@ set savepoint -
     SELECT dbo.ISOweek(CONVERT(DATETIME,'12/26/2004',101)) AS 'ISO Week'; 
     ```
 - Usage
-    * only used in sql statement, most in select or present data 
+    * only used in sql statement, most in select or representing a data or dataset
 
 - Why use
 
@@ -637,7 +681,7 @@ set savepoint -
 ### **Trigger**
     specical type store procedure that executed when user issue DML (not select)
     * DML trigger
-    * DDL trigger
+    * DDL trigger (db level and server level)
     * Logon trigger
     * server level
 - Syntax
@@ -695,40 +739,9 @@ set savepoint -
     * cascading update 级联更新
 - Why not use
 
-
-### OUTPUT
-    - for DML 
-    - RETURN rows as part of DML
-    - access to INSERTED and DELETED system table
-    输出来看
-
-```sql
-UPDATE Employee 
-SET Salary = Salary * 1.10
-OUTPUT 
-DELETED.* AS [Old Values], 
-INSERTED.* AS New Values 
-
-DECLARE @TempTable TABLE (EMPID INT)
-
-INSERT Employee 
-
-OUTPUT INSERTED.EMPID 
-INTO @TempTable 
-
-VALUES ('David')
-
-INSERT Employee 
-
-OUTPUT INSERTED.EMPID 
-INTO @TempTable 
-
-VALUES ('James')
-SELECT * FROM @TempTable
-```
 ### **Cursor**
-    object applied on result set to read and load the result row by row
-    
+    object applied on result set to read and load the result row by row, so you can operate on each row
+
 - Syntax
     ```sql
     
@@ -760,6 +773,7 @@ SELECT * FROM @TempTable
 ### **Index** 
     objects allows sql server to find data in a table without scanning entire table
     
+    Objects based on table column for faster retrieval of data
 
 - Syntax
     ```sql
@@ -884,3 +898,33 @@ SELECT MIN(fID)
 FROM FriendsData 
 GROUP BY UserID, FriendsID)
 ``` 
+### OUTPUT
+    - for DML 
+    - RETURN rows as part of DML
+    - access to INSERTED and DELETED system table
+    输出来看
+
+```sql
+UPDATE Employee 
+SET Salary = Salary * 1.10
+OUTPUT 
+DELETED.* AS [Old Values], 
+INSERTED.* AS New Values 
+
+DECLARE @TempTable TABLE (EMPID INT)
+
+INSERT Employee 
+
+OUTPUT INSERTED.EMPID 
+INTO @TempTable 
+
+VALUES ('David')
+
+INSERT Employee 
+
+OUTPUT INSERTED.EMPID 
+INTO @TempTable 
+
+VALUES ('James')
+SELECT * FROM @TempTable
+```
