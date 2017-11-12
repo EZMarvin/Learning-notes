@@ -48,13 +48,15 @@ Global Assembly Cache :-- Assemblies can be shared among multiple applications o
 
 Each computer where the common language runtime is installed has a machine-wide code cache called the global assembly cache. The global assembly cache stores assemblies specifically designated to be shared by several applications on the computer.
 
-You should share assemblies by installing them into the global assembly cache only when you need to. As a general guideline, keep assembly dependencies private, and locate assemblies in the application directory unless sharing an assembly is explicitly required. In addition, it is not necessary to install assemblies into the global assembly cache to make them accessible to COM interop or unmanaged code.
-
 GAC is a machine wide a local cache of assemblies maintained by the .NET Framework. We can register the assembly to global assembly cache by using gacutil command. 
 
 We can Navigate to the GAC directory, C:\winnt\Assembly in explore. In the tools menu select the cache properties; in the windows displayed you can set the memory limit in MB used by the GAC
 
-## Namespace ##
+## layer and tier ##
+
+Layer is logical - Logical layers are merely a way of organizing your code. Typical layers include Presentation, Business and Data – the same as the traditional 3-tier model.
+
+Tier is physical - tiers are places where layers are deployed and where layers run. In other words, tiers are the physical deployment of layers.
 
 ## variable scope ##
 
@@ -99,9 +101,13 @@ reference in heap
 1. if no constructor then .net will create default constructor
 1. if you create your custom constructor then the default will be replace
 1. can be inherited so it can not be override
+
+### static constructor ###
+
 1. class can have both static and non static constructor
-1. static con can not have access modifier
-1. 
+1. static constructor can not have access modifier
+1. you can not call static constructor explicitly. Static constructor executes automatically before any non static constructor of that class
+1. static constructor can not accept parameter
 
 static class and seal class can not be inherit
 
@@ -109,17 +115,100 @@ static class and seal class can not be inherit
 
 public new void printCustomer(){}
 
-A a = new B(); call base class method
+A a = new B(); call base class method **virtual method also work**
 
-public override printCustomer(){}
+public override printCustomer(){} **require virtual method**
 
 A a = new B(); call derived/subclass class method
 
+## Abstract Class Method ##
+
+1. Abstract class is a class that will always serve as base class and it can not be instantiated
+1. Abstract class must use abstract keyword
+1. it should have at least one abstract method
+1. can have both abstract and non-abstract method
+1. can have constructor
+1. abstract method is just declared in the abstract class and implemented in derived class
+1. abstract method is by default virtual so can not add virtual keyword
+
+## Interface ##
+
+1. by default all method in interface are abstract
+1. by default public can not change their access modifier
+1. supports multiple inheritance
+1. interface can not have constructor
+1. can not create object of an interface
+1. interface help loose couple code
+
 ## Collection ##
 
-generic and non-generic
+generic <> and non-generic (any type)
 
+value -> ref boxing || ref -> value unboxing
 
+method<T>(T a, T b) - type safe use **a.Equals(b)**
+
+class() where T: class/Struct/interface/new object
+
+    Non-generic         |       Generic
+    IEnumerator         |       IEnumerator<T>
+    IEnumerable         |       IEnumerable<T>
+    ICollection         |       ICollection<T>
+        /      \        |           /     \
+    IDictionary IList   |   IDictionary<> IList<>
+
+Relaional??
+
+* Dictionary<Tkey, Tvalue>
+* SortedDictionary<Tkey, Tvalue> binary tree
+* SortedList<Tkey, Tvalue> in Array
+
+NonRelational
+
+* List<> primary Length 4
+* LinkedList<> 
+* HashSet<>
+* SortedSet<>
+* Stack<>
+* Queue<>
+
+ArrayList -> List<>
+HashTable -> Dictionary<>
+Queue -> Queue<>
+Stack -> Stack<>
+SortedList -> SortedList<>
+
+## Exception Handle ##
+
+exception runtime error - logical mistake
+
+```C#
+try {
+
+}
+catch(OverFlowException oe){
+
+}
+catch(Exception ex){
+
+}
+finally{
+
+}
+```
+
+catch order from specific to general
+
+    Object
+      |
+    Exception
+        |                   \
+        SystemException     ApplicationException
+        |                       |
+        Build in exception      Custom Exception
+        throw new Exception
+
+Check input is Number or not **int.TryParse(input, out x)** return true if success
 
 ## Attribute ##
 
@@ -131,13 +220,45 @@ function () // when use will get notification
 function () // will get error
 ```
 
-## Array ##
+## Delegate ##
 
-Array.Sort();
-Array.Reverse();
+type safe function pointer
 
-## layer and tier ##
+    Predefine delegate - generic
+    Action - any type input no output
+    Func - any input any output
+    Predicate - any type input ouput pool
 
-Layer is logical - Logical layers are merely a way of organizing your code. Typical layers include Presentation, Business and Data – the same as the traditional 3-tier model.
+## Extension Method ##
 
-Tier is physical - tiers are places where layers are deployed and where layers run. In other words, tiers are the physical deployment of layers.
+1. extension method must be static
+1. class contain extension method must be static
+1. first para must of the type which you want to extend and written after this key word
+
+```C#
+public static bool isprime (this int x){
+
+}
+```
+
+## static method - shared method ##
+
+Compile time and shared memory
+
+## partial classes ##
+
+partial class can use same name in namespace 一个class分成好几个部分编写
+
+## Constant Readonly ##
+
+1. value of con can not change through program, readonly can change in constructor
+1. con must be initialized when declared, readonly is not must can declared later in constructor
+1. const can not be static, can not add static keyword with con. readonly can add static
+
+## Var || dynamic type ##
+
+compile time || runtime
+
+var must assign value || dynamic don't need
+
+var in program can not change || dynamic can change value type

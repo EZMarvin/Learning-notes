@@ -1,8 +1,8 @@
-## JAVA
+# JAVA #
 
 总结
 
-### Syntax
+## Syntax ##
 
 * Object is a runtime entity and it's state is stored in field and behaviour
 * Class is blue print to create object, describe status and behaviour
@@ -10,36 +10,36 @@
 * Constructor is invoked when new object is created
 * Creating object - declared, instantiated, initialized
 
-### Modifiers
+## Modifiers ##
 
 * Access Modifiers - default, public(visable to world), protected(visable to package and subclass), private(to class only)
 * Non-access Modifiers - static, final(finalize the implementation of class, method, and variable), abstract(abstract class), synchronized volatile (thread)
 
-### Variables
+## Variables ##
 
 * Local Variables - inside the method, constructors, or blocks, destory when method complete **No access modifiers/ No default value**
 * Class variables (Static) - declare within a class, outside method. **with static keyword**
 * Instance Variables (Non-static) - variables within a class but outside any method, initialized when class is instantiated
 
-### Boxing and Unboxing
+## Boxing and Unboxing ##
 
 * converting primitive data type into object is boxing
 * converting back is unboxing 
 
-### Constructor
+## Constructor ##
 
 * can't be final, abstract, static (没有意义，本身已经包含这些定义)
 * can be private (可以，singleton)
 
-### finalize() method 
+## finalize() method ##
 
 * called before an object's final destruction - used to make sure object terminates cleanly
 
-### OOP
+## OOP ##
 
 * Inheritance (extends)
-    * can be defined as the process where one class need properties of another
-    * reuse the field and method of the existing class
+  * can be defined as the process where one class need properties of another
+  * reuse the field and method of the existing class
 * Polymorphism (when a parent class reference is used to refer to child class object)
     * ability of an object to take on many forms
 * Abstraction (abstract class and interface)
@@ -49,14 +49,14 @@
     * data will be hiding from other class - data hidning 
     * private class variable and provide setter and getter methods
 
-### Exception
+## Exception ##
 
 * checked exceptions - exception that occurs at compile time
 * unchecked exception - runtime exception
-* Throws- method does not handle a checked exception, method must declare it using throws 
-    - use to postpone the handling of checked exception
-    - followed by exception class names
-    - can throw multiple exception 
+* Throws- method does not handle a checked exception, method must declare it using throws
+  * use to postpone the handling of checked exception
+  * followed by exception class names
+  * can throw multiple exception 
 
 ```java
 
@@ -81,10 +81,10 @@ catch (Exception e) {
 ```
 
 * Finally block
-    - follows a try block or catch block
-    - block of code will always executes (不管是否有exception)
+  * follows a try block or catch block
+  * block of code will always executes (不管是否有exception)
 
-### Inner Class
+## Inner Class (Nested) ##
 
 * Inner Class - security mechanism/ can use private/ can use access private member
 
@@ -179,14 +179,14 @@ public class Outer {
 }
 ```
 
-### OverLoading VS Overriding
+## OverLoading VS Overriding ##
 
 * Rules for Overriding
-    * argument list should be exactly the same as the overriden method
-    * return type should be the same or a subtype of the return type
-    * access level can not be more restrictive than the overriden method 重写后访问条件更加宽松
-    * final method can not override
-    * overriding method can throw narrower or fewer exceptions than overridden method 
+  * argument list should be exactly the same as the overriden method
+  * return type should be the same or a subtype of the return type
+  * access level can not be more restrictive than the overriden method 重写后访问条件更加宽松
+  * final method can not override
+  * overriding method can throw narrower or fewer exceptions than overridden method 
 
 | Overloading    | Overriding   |
 | -------- | -----  |
@@ -197,7 +197,7 @@ public class Outer {
 | return type does not matter | must be same or more specified (subtype) |
 | Argument should be different | Argument should be same |
 
-### Interfaces & abstract class
+## Interfaces & abstract class ##
 
 * Interfaces
     * can be defined as a contract between objects on how to communicate with each other, describe the behaviour
@@ -216,7 +216,6 @@ public class Outer {
     * use abstract class you have to inherit it and provide implementation to abstract methods
     * if you inherit abstract class, you have to provide implementations to all abstract methods in it
 
-
 | Abstract Class | Interface |
 | -------- | -------- |
 | can have constructor | no constructor |
@@ -226,7 +225,7 @@ public class Outer {
 | can have protect and public abstract nethods | only public methods |
 | can have static and final or static final variable with access profiler | only public static final variable |
 
-### Thread
+## Thread ##
 
 * Create thread by implementing a Runable Interface
 
@@ -281,12 +280,12 @@ public class TestThread {
 class ThreadDemo extends Thread {
    private Thread t;
    private String threadName;
-   
+
    ThreadDemo( String name) {
       threadName = name;
       System.out.println("Creating " +  threadName );
    }
-   
+
    public void run() {
       System.out.println("Running " +  threadName );
       try {
@@ -321,3 +320,16 @@ public class TestThread {
    }
 }
 ```
+
+## Java Collection & Map ##
+
+      Collection                Map
+       / /  \      \             |
+    Set List Queue <- Dequeue  SortedMap
+    |
+    SortedSet
+
+List: ArrayList / LinkedList / Stack / Vector
+Set: HashSet / LinkedHashSet / TreeSet
+Queue: PriorityQueue / ArrayDeque(Deque) = new LinkedList() / LinkedList(Deque)
+Map: HashMap / HashLinkedMap / HashTable / TreeMap
