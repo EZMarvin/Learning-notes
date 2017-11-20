@@ -220,15 +220,6 @@ function () // when use will get notification
 function () // will get error
 ```
 
-## Delegate ##
-
-type safe function pointer
-
-    Predefine delegate - generic
-    Action - any type input no output
-    Func - any input any output
-    Predicate - any type input ouput pool
-
 ## Extension Method ##
 
 1. extension method must be static
@@ -262,3 +253,20 @@ compile time || runtime
 var must assign value || dynamic don't need
 
 var in program can not change || dynamic can change value type
+
+## Delegate ##
+
+type safe function pointer
+
+    Predefine delegate - generic
+    Action - any type input no output
+    Func - any input any output
+    Predicate - any type input ouput pool
+
+## Event ##
+
+A mechanism for communication between two object
+
+Lose Coupling
+
+Help extend application
