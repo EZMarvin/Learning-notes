@@ -71,7 +71,7 @@ System.Data
   DataReader - Reads a forward-only read-only stream
   DataAdapter - populate a DataSet and resolves update with the data source
 
-### ado.net approaches models ###
+### two models for data access/ ado.net approaches models ###
 
 Connection-oriented || Connectionless
 
@@ -134,20 +134,21 @@ DataAdapter - DataSet
 * state management is process you maintain the sane info though request for same or different Web pages
 
 Client Management
-  Cookies
-  ViewState
-  Query String
-  Hidden Fields
+
+    Cookies
+    ViewState
+    Query String
+    Hidden Fields
 
 Server Side
-  Sessions
-  Application[] variable
-  Database
-  Cache
+    Sessions
+    Application[] variable
+    Database
+    Cache
 
 ### Transfer Data ###
 
-Between Pages 
+Between Pages
 
 * using HyperLink()
 * using Request - Response.Redirect(“Page2.aspx?UserId={0}",strUserID)
@@ -157,13 +158,61 @@ Between Pages
 In page and bwetween function
 
 * ViewState[]
+
 ## Linq ##
+
+Stands for Language Integrated Query
+
+write queries against in-memory collections and other resource
+
+* Query Syntax
+* Method Syntax
+
+Linq replace Foreach (execute in foreach statement)
+
+## Entity FrameWork ##
+
+Is an Object/Reational Mapping Framework that enables developers to work with relational data
+
+O/RM is a tool for storing data from domain objects to relational database,
+allows to keep database design separate from out domain class design
+
+* domain class objects
+* relational database objects
+* mapping info on how objects map to relational database objects(tables, views & storedprocedure)
+
+ORM provide function
+
+* create object model by database schema - DB first model
+* create database schema by object model - code first model
+* Query data by oo API
+* data mantipulation operations
+
+EDM Model
+
+    Conceptual Model => Mapping => Storage Model
+
+DBContext is an important part of entity framework. it is a bridge between domain or entity class and database
+
+Type of Entity in framework - dynamic proxy(poco entity)
+
+Entity Property Types
+
+* scalar properties - actual value contained in entity
+* navigation properties - pointers to other related entities
+
+Entity State
+
+* added
+* unchanged
+* modified
+* deleted
 
 ### lazy loading and eager loading ###
 
 loading related entities of an entity
 
-Lazy loading:
+Lazy loading: (delay loading of related data until request it)
 
 * related objects are not loaded automatically with its parent object until they are request
 * child entity is populated when it is requested
@@ -183,9 +232,22 @@ Deferred Execution:
 * query is not executed when it is declared
 * it is executed when query variable is iterated over not when it is created
 * get most updated data, execute frequently
+* improve performance when you have mantipulate latge data collections
+* Collection result have smaller memory foot prints
 
 Immediated Execution:
 
 * caching query results
 * return a singleton value and executed immediately 
 * using count() average() max() toList()(conversion operator which allow you to make a copy/snapshot of the result, and access without need to reexecute the query)
+
+### Ways to Connected to DB using ADO ###
+
+Repository is a class with data access methods
+
+* using Conenction Model (ConnectionString, Entity class(table) Repository class(Connection and sql command))
+* using Linq (create dbml file connect to db (linq to sql class) and use NameContext Object)
+* using Entity FrameWork Data model (download the package for the framework)(edmx)
+
+## WCF - windows communication foundation ##
+
